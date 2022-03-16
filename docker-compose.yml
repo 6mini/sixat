@@ -1,0 +1,14 @@
+version: '3' # 컴포즈 버전, 현재 최신 버전
+services: # 인스턴스를 띄울 서비스를 리스트 형식으로 적어줄 수 있음
+  zookeeper: # 주키퍼 인스턴스
+    image: zookeeper:3.7 # 이미지, 도커 허브의 주키퍼 오피셜 이미지를 사용
+    hostname: zookeeper
+    ports: # 버츄얼 도커 인스턴스와 로컬 컴퓨터를 이어주는 포트 설정 필요
+      - "2181:2181" # 직접 코딩을 하며 사용할 수 있음
+    environment: # 여러가지 설정
+      ZOO_MY_ID: 1 # 주키퍼의 ID
+      ZOO_PORT: 2181 # 주키퍼의 포트
+      ZOO_SERVERS: server.1=zookeeper:2888:3888 # 주키퍼의 서버
+    volumes: # 파일을 공유할 폴더를 입력
+      - ./data/zookeeper/data:/data # 버츄얼 환경 안에서 생기는 폴더
+      - ./data/zookeeper/datalog:/datalog # : 뒷단은 로컬에서도 접근할 수 있는 폴더, 로그
